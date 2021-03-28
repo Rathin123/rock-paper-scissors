@@ -1,0 +1,85 @@
+
+/**
+ * This function plays a turn for the computer. 
+ * @return {string} picks a random string from rock, paper, and scissors
+*/
+
+function computerPlay(){
+
+    //creates a random int between 0-2
+    let getRandomInt = () => Math.floor(Math.random() * Math.floor(3)); 
+
+    let rand = getRandomInt();
+
+    if (rand === 0){
+        return "Rock";
+    }
+    else if (rand === 1){
+        return "Paper";
+    }
+    else if (rand === 2){
+        return "Scissors";
+    }
+}
+
+
+/** 
+* Brief description of the function here.
+* @param {string} playerSelection - player's choice; one of rock, paper, or scissors
+* @param {string} computerSelection - computer's choice; one of rock, paper, or scissors
+* @return {string} Returns a string explaining the outcome of the game.
+*/
+function playRound(playerSelection, computerSelection){
+
+    let player = playerSelection.toLowerCase();
+    let computer = computerSelection.toLowerCase();
+
+    console.log(`You picked: ${playerSelection}.`);
+    console.log(`The computer picked: ${computerSelection}.`);
+
+    if (player == "rock"){
+        if (computer == "paper"){
+            return "You lose! Paper beats Rock.";
+        }
+        else if (computer == "scissors"){
+            return "You win! Rock beats Scissors.";
+        }
+        else {
+            return "Draw! You both picked Rock.";
+        }
+    }
+    else if (player == "paper"){
+        if (computer == "scissors"){
+            return "You lose! Scissors beats Paper.";
+        }
+        else if (computer == "rock"){
+            return "You win! Paper beats Rock.";
+        }
+        else {
+            return "Draw! You both picked paper.";
+        }
+    }
+    else {
+        if (computer == "rock"){
+            return "You lose! Rock beats Scissors.";
+        }
+        else if (computer == "paper"){
+            return "You win! Scissors beats Paper.";
+        }
+        else {
+            return "Draw! You both picked Scissors.";
+        }
+    }
+}
+
+function game(){
+    for(i=0; i<5; i++){
+        let playerSelection = computerPlay();
+        // prompt("Enter your choice! Must be Rock, Paper, or Scissors, case insensitve.");
+        let computerSelection = computerPlay();
+
+        console.log(playRound(playerSelection, computerSelection));
+    }
+}
+
+game();
