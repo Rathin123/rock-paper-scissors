@@ -23,7 +23,6 @@ function computerPlay(){
     }
 }
 
-
 /** 
 * Brief description of the function here.
 * @param {string} playerSelection - player's choice; one of rock, paper, or scissors
@@ -86,7 +85,6 @@ function playRound(playerSelection, computerSelection){
 /**
  * This function plays 5 rounds and updates the DOM with the output.
  */
-
 function game(){
 
     for(i=0; i<5; i++){
