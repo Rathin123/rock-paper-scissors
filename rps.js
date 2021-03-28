@@ -1,3 +1,4 @@
+const div = document.getElementById('div1');
 
 /**
  * This function plays a turn for the computer. 
@@ -31,12 +32,22 @@ function computerPlay(){
 */
 function playRound(playerSelection, computerSelection){
 
+    //make the input lowercase
     let player = playerSelection.toLowerCase();
     let computer = computerSelection.toLowerCase();
 
-    console.log(`You picked: ${playerSelection}.`);
-    console.log(`The computer picked: ${computerSelection}.`);
+    //print the output to the DOM
+    let playerPara = document.createElement("p");
+    let playerNode = document.createTextNode(`You picked: ${playerSelection}.`);
+    playerPara.appendChild(playerNode);
+    div.appendChild(playerPara);
 
+    let computerPara = document.createElement("p");
+    let computerNode = document.createTextNode(`You picked: ${computerSelection}.`);
+    computerPara.appendChild(computerNode);
+    div.appendChild(computerPara);
+
+    //if chain to find the outcome
     if (player == "rock"){
         if (computer == "paper"){
             return "You lose! Paper beats Rock.";
@@ -72,13 +83,20 @@ function playRound(playerSelection, computerSelection){
     }
 }
 
+/**
+ * This function plays 5 rounds and updates the DOM with the output.
+ */
+
 function game(){
+
     for(i=0; i<5; i++){
-        let playerSelection = computerPlay();
-        // prompt("Enter your choice! Must be Rock, Paper, or Scissors, case insensitve.");
+        let playerSelection = prompt("Enter your choice! Must be Rock, Paper, or Scissors, case insensitve.");
         let computerSelection = computerPlay();
 
-        console.log(playRound(playerSelection, computerSelection));
+        let para = document.createElement("p");
+        let node = document.createTextNode(playRound(playerSelection, computerSelection));
+        para.appendChild(node);
+        div.appendChild(para);
     }
 }
 
