@@ -1,13 +1,15 @@
-const div = document.getElementById('div1');
-const buttons = document.getElementById('buttons')
-const rock_button = document.getElementById('Rock')
-const paper_button = document.getElementById('Paper')
-const scissors_button = document.getElementById('Scissors')
-const computer_score_ele = document.getElementById('computer_score').firstChild
-const player_score_ele = document.getElementById('player_score').firstChild
+const buttons = document.getElementById('buttons');
+const rock_button = document.getElementById('Rock');
+const paper_button = document.getElementById('Paper');
+const scissors_button = document.getElementById('Scissors');
+const computer_score_ele = document.getElementById('computer_score').firstChild;
+const player_score_ele = document.getElementById('player_score').firstChild;
+const player_choice_ele = document.getElementById('player_choice');
+const computer_choice_ele = document.getElementById('computer_choice');
+const round_result_ele = document.getElementById('round_result');
 
-let computer_score = 0
-let player_score = 0
+let computer_score = 0;
+let player_score = 0;
 
 
 /**
@@ -45,55 +47,44 @@ function playRound(playerSelection, computerSelection){
     let player = playerSelection.toLowerCase();
     let computer = computerSelection.toLowerCase();
 
-    //print the output to the DOM
-    let playerPara = document.createElement("p");
-    let playerNode = document.createTextNode(`You picked: ${playerSelection}.`);
-    playerPara.appendChild(playerNode);
-    div.appendChild(playerPara);
-
-    let computerPara = document.createElement("p");
-    let computerNode = document.createTextNode(`The computer picked: ${computerSelection}.`);
-    computerPara.appendChild(computerNode);
-    div.appendChild(computerPara);
-
     //if chain to find the outcome
     if (player == "rock"){
         if (computer == "paper"){
             computer_score += 1;
-            return "You lose! Paper beats Rock.";
+            return ["You lose! Paper beats Rock.","🪨","🗞️"];
         }
         else if (computer == "scissors"){
             player_score += 1;
-            return "You win! Rock beats Scissors.";
+            return ["You win! Rock beats Scissors.","🪨","✂️"];
         }
         else {
-            return "Draw! You both picked Rock.";
+            return ["Draw! You both picked Rock.","🪨", "🪨"];
         }
     }
     else if (player == "paper"){
         if (computer == "scissors"){
             computer_score += 1;
-            return "You lose! Scissors beats Paper.";
+            return ["You lose! Scissors beats Paper.","🗞️","✂️"];
         }
         else if (computer == "rock"){
             player_score += 1;
-            return "You win! Paper beats Rock.";
+            return ["You win! Paper beats Rock.","🗞️", "🪨"];
         }
         else {
-            return "Draw! You both picked Paper.";
+            return ["Draw! You both picked Paper.","🗞️","🗞️"];
         }
     }
     else {
         if (computer == "rock"){
             computer_score += 1;
-            return "You lose! Rock beats Scissors.";
+            return ["You lose! Rock beats Scissors.","✂️", "🪨"];
         }
         else if (computer == "paper"){
             player_score += 1;
-            return "You win! Scissors beats Paper.";
+            return ["You win! Scissors beats Paper.","✂️", "🗞️"];
         }
         else {
-            return "Draw! You both picked Scissors.";
+            return ["Draw! You both picked Scissors.","✂️", "✂️"];
         }
     }
 }
@@ -107,17 +98,18 @@ function playerSelectCallback(event){
 
     let playerSelection = event.target.id
     let computerSelection = computerPlay();
+    result = playRound(playerSelection, computerSelection)
 
-    let para = document.createElement("p");
-    let node = document.createTextNode(playRound(playerSelection, computerSelection));
-    para.appendChild(node);
-    div.appendChild(para);
+    //print choices + round results
+    player_choice_ele.firstChild.nodeValue = result[1];
+    computer_choice_ele.firstChild.nodeValue = result[2];
+    round_result_ele.textContent = result[0];
 
     player_score_ele.nodeValue = `Player Score: ${player_score}`
     computer_score_ele.nodeValue = `Computer Score: ${computer_score}`
 
     
-
+    //catches if anyone gets to 5
     if (computer_score == 5 || player_score == 5){
         let head2 = document.getElementById("subtitle");
         head2.firstChild.nodeValue = (computer_score == 5) ? "You lost!" : "You won!";
@@ -130,5 +122,3 @@ function playerSelectCallback(event){
 rock_button.addEventListener("click", playerSelectCallback)
 paper_button.addEventListener("click", playerSelectCallback)
 scissors_button.addEventListener("click", playerSelectCallback)
-
-// Quick if statement to catch the winner if anyone gets to 5.
