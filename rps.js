@@ -1,4 +1,14 @@
 const div = document.getElementById('div1');
+const buttons = document.getElementById('buttons')
+const rock_button = document.getElementById('Rock')
+const paper_button = document.getElementById('Paper')
+const scissors_button = document.getElementById('Scissors')
+const computer_score_ele = document.getElementById('computer_score').firstChild
+const player_score_ele = document.getElementById('player_score').firstChild
+
+let computer_score = 0
+let player_score = 0
+
 
 /**
  * This function plays a turn for the computer. 
@@ -42,16 +52,18 @@ function playRound(playerSelection, computerSelection){
     div.appendChild(playerPara);
 
     let computerPara = document.createElement("p");
-    let computerNode = document.createTextNode(`You picked: ${computerSelection}.`);
+    let computerNode = document.createTextNode(`The computer picked: ${computerSelection}.`);
     computerPara.appendChild(computerNode);
     div.appendChild(computerPara);
 
     //if chain to find the outcome
     if (player == "rock"){
         if (computer == "paper"){
+            computer_score += 1;
             return "You lose! Paper beats Rock.";
         }
         else if (computer == "scissors"){
+            player_score += 1;
             return "You win! Rock beats Scissors.";
         }
         else {
@@ -60,20 +72,24 @@ function playRound(playerSelection, computerSelection){
     }
     else if (player == "paper"){
         if (computer == "scissors"){
+            computer_score += 1;
             return "You lose! Scissors beats Paper.";
         }
         else if (computer == "rock"){
+            player_score += 1;
             return "You win! Paper beats Rock.";
         }
         else {
-            return "Draw! You both picked paper.";
+            return "Draw! You both picked Paper.";
         }
     }
     else {
         if (computer == "rock"){
+            computer_score += 1;
             return "You lose! Rock beats Scissors.";
         }
         else if (computer == "paper"){
+            player_score += 1;
             return "You win! Scissors beats Paper.";
         }
         else {
@@ -81,21 +97,38 @@ function playRound(playerSelection, computerSelection){
         }
     }
 }
+/** 
+* Callback function for the onclick
+* @summary Callback function used when the player makes their choice
+* @param {Event} event - event object
+*/
 
-/**
- * This function plays 5 rounds and updates the DOM with the output.
- */
-function game(){
+function playerSelectCallback(event){
 
-    for(i=0; i<5; i++){
-        let playerSelection = prompt("Enter your choice! Must be Rock, Paper, or Scissors, case insensitve.");
-        let computerSelection = computerPlay();
+    let playerSelection = event.target.id
+    let computerSelection = computerPlay();
 
-        let para = document.createElement("p");
-        let node = document.createTextNode(playRound(playerSelection, computerSelection));
-        para.appendChild(node);
-        div.appendChild(para);
+    let para = document.createElement("p");
+    let node = document.createTextNode(playRound(playerSelection, computerSelection));
+    para.appendChild(node);
+    div.appendChild(para);
+
+    player_score_ele.nodeValue = `Player Score: ${player_score}`
+    computer_score_ele.nodeValue = `Computer Score: ${computer_score}`
+
+    
+
+    if (computer_score == 5 || player_score == 5){
+        let head2 = document.getElementById("subtitle");
+        head2.firstChild.nodeValue = (computer_score == 5) ? "You lost!" : "You won!";
+        
+        buttons.style.opacity = '0';
+        setTimeout(() => buttons.remove(), 1000);
     }
 }
 
-game();
+rock_button.addEventListener("click", playerSelectCallback)
+paper_button.addEventListener("click", playerSelectCallback)
+scissors_button.addEventListener("click", playerSelectCallback)
+
+// Quick if statement to catch the winner if anyone gets to 5.
